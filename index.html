@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Age Calculator</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    
+    <div class="container">
+        <h1 id="app_heading">Age Calculator</h1>
+        <div class="calculator">
+           <h1>JavaScript<br><span>Age Calculator</span></h1>
+           <div class="input-box">
+            <input type="date" id="date">
+            <button onclick="calculateAge()">Calculate</button>
+           </div> 
+           <p id="result"></p>
+        </div>
+    </div>
+
+    <script>
+        let userInput = document.getElementById('date');
+        userInput.max = new Date().toISOString().split("T")[0];
+        let result = document.getElementById("result");
+
+        function calculateAge(){
+            // First we take user date value and store in a variable
+            let birthDate = new Date(userInput.value);
+            let userDate = birthDate.getDate();
+            let userMonth = birthDate.getMonth() + 1;
+            let userYear = birthDate.getFullYear();
+            console.log(birthDate,userMonth,userYear);
+
+            // Second we take todays date value and store a variable
+            let today = new Date();
+            let currentDate = today.getDate();
+            let currentMonth = today.getMonth() + 1;
+            let currentYear = today.getFullYear();
+            console.log(  "CurrentDate: "+ currentDate, "CurrentMonth:"+ currentMonth,"CurrentYear: " + currentYear);
+
+            // Third we take differance between them
+            let differanceDate, differanceMonth, differanceYear;
+            
+            // Fourth we Calculate difference of year
+            differanceYear = currentYear - userYear;
+
+            // Five we Calculate Month 
+            if(currentMonth >= userMonth){
+                differanceMonth = currentMonth - userMonth;
+            }else{
+                currentYear --;
+                differanceMonth = 12 + currentMonth -userInput;
+            }
+            if(currentDate >= userDate){
+                differanceDate = currentDate - userDate;
+            }else{
+                differanceMonth --;
+                differanceDate = getDaysInMonth(userYear,userMonth) + currentDate - userDate;
+            }
+            if(differanceMonth < 0){
+                differanceMonth = 11;
+                differanceYear--;
+            }
+            console.log(differanceYear,differanceMonth,differanceDate);
+            result.innerHTML = `You are <span>${differanceYear}</span> Years <span> ${differanceMonth}</span> Month and<span> ${differanceDate}</span> Days old`;
+        }
+
+        function getDaysInMonth(year,month){
+            return new Date(year,month,0).getDate();
+        }
+    </script>
+</body>
+</html>
